@@ -16,6 +16,7 @@ urlpatterns = [
     path('opportunitiesNegociation/', views.OpportunitiesListeNegociation.as_view() ),
     path('opportunitiesGagnee/', views.OpportunitiesListeGagnee.as_view() ),
     path('opportunitiesPerdue/', views.OpportunitiesListePerdue.as_view() ),
+    path('Updateopportunities/<int:pk>', views.OpportunitiesRetrieveUpdateDestroyAPIView.as_view() ),
    
     # path('^Opportunity/(?P<username>.+)/$', PurchaseList.as_view()),
 ]

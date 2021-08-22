@@ -118,3 +118,10 @@ class OpportunitiesListePerdue(ListCreateAPIView):
                 if self.request.method == 'POST':
                         return serializer.OpportunitiesSerializer
                 return serializer.RetriveOpportunitiesSerializer
+
+
+class OpportunitiesRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class =serializer.OpportunitiesSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return Opportunities.objects.filter(id=self.kwargs.get('pk' , None)) 
