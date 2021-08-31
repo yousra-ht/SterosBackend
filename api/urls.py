@@ -17,6 +17,11 @@ urlpatterns = [
     path('opportunitiesGagnee/', views.OpportunitiesListeGagnee.as_view() ),
     path('opportunitiesPerdue/', views.OpportunitiesListePerdue.as_view() ),
     path('Updateopportunities/<int:pk>', views.OpportunitiesRetrieveUpdateDestroyAPIView.as_view() ),
-   
+    path('opportunityDetaills/<int:pk>', views.OpportunityDetaills.as_view() ),
+    path('emailListe/<int:pk>', views.emailListe.as_view() ),
+    path('callListe/<int:pk>', views.callListe.as_view() ),
+    path('meetingListe/<int:pk>', views.meetingListe.as_view() ),
+    path('ActionListe/', views.ActionListe.as_view() ),
+    path('SumQualification/', views.SumQualification ),
     # path('^Opportunity/(?P<username>.+)/$', PurchaseList.as_view()),
 ]

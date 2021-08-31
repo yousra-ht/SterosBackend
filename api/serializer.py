@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import fields
 from django.db.models.base import Model
 from rest_framework import serializers 
-from api.models import Contact, Opportunities, Produit, Prospect 
+from api.models import Action, Contact, Opportunities, Produit, Prospect 
 
 class ProduitSerializer(serializers.ModelSerializer):
 
@@ -49,3 +49,8 @@ class RetriveOpportunitiesSerializer(serializers.ModelSerializer):
         fields = ('id', 'name'  ,'phase' ,'description' ,'signatureDate', 'estimatePrice','prospect' , 'user' , 'produit')
 
 
+class ActionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model =  Action
+        fields = "__all__"
