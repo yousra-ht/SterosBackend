@@ -41,7 +41,7 @@ class ContactListe(ListCreateAPIView):
 
 
 class OpportunitiesListe(ListCreateAPIView):
-        queryset = Opportunities.objects.all()
+        queryset = Opportunities.objects.all().filter(delete=True).order_by('creationDate')
         permission_classes = [IsAuthenticated]
         def get_serializer_class(self):
                 if self.request.method == 'POST':
@@ -162,22 +162,40 @@ class OpportunityDetaills(ListCreateAPIView):
         return Opportunities.objects.filter(id=self.kwargs.get('pk' , None))  
 
 class emailListe(ListCreateAPIView):
-        serializer_class =serializer.ActionSerializer
         pagination_class = None
+        def get_serializer_class(self):
+                if self.request.method == 'POST':
+                                return serializer.ActionSerializer
+        
+                return serializer.RetriveActionbbbbSerializer
+        
         def get_queryset(self): 
        
                 return Action.objects.all().filter(type='email' , Opportunity_id= self.kwargs.get('pk' , None)  )
        
 class callListe(ListCreateAPIView):
-        serializer_class =serializer.ActionSerializer
+        # serializer_class =serializer.RetriveActionbbbbSerializer
         pagination_class = None
+        def get_serializer_class(self):
+                if self.request.method == 'POST':
+                                return serializer.ActionSerializer
+        
+                return serializer.RetriveActionbbbbSerializer
+        # def get_queryset(self):
+        #         return Contact.objects.all()
         def get_queryset(self): 
        
                 return Action.objects.all().filter(type='phone call' , Opportunity_id= self.kwargs.get('pk' , None)  )
        
 class meetingListe(ListCreateAPIView):
-        serializer_class =serializer.ActionSerializer
+        # serializer_class =serializer.RetriveActionbbbbSerializer
         pagination_class = None
+        def get_serializer_class(self):
+                if self.request.method == 'POST':
+                                return serializer.ActionSerializer
+        
+                return serializer.RetriveActionbbbbSerializer
+        
         def get_queryset(self): 
        
                 return Action.objects.all().filter(type='meeting' , Opportunity_id= self.kwargs.get('pk' , None)  )

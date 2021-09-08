@@ -30,7 +30,7 @@ class RetriveContactSerializer(serializers.ModelSerializer):
 
     class Meta:
         model   = Contact
-        fields = ('id',   'name' ,'phone' ,'email', 'prospect' , 'user')
+        fields = ('id',   'name' ,'phone' ,'email', 'function','prospect' , 'user')
 
 
 class OpportunitiesSerializer(serializers.ModelSerializer):
@@ -46,7 +46,8 @@ class RetriveOpportunitiesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model   = Opportunities
-        fields = ('id', 'name'  ,'phase' ,'description' ,'signatureDate', 'estimatePrice','prospect' , 'user' , 'produit')
+        ordering = ('creationDate',)
+        fields = ('id', 'name'  ,'phase' ,'description' ,'signatureDate','creationDate', 'estimatePrice','prospect' , 'user' , 'produit' , 'delete')
 
 
 class ActionSerializer(serializers.ModelSerializer):
@@ -54,3 +55,11 @@ class ActionSerializer(serializers.ModelSerializer):
     class Meta:
         model =  Action
         fields = "__all__"
+
+
+class RetriveActionbbbbSerializer(serializers.ModelSerializer):
+    Contact = ContactSerializer(read_only=True,many=True)
+
+    class Meta:
+        model   = Action
+        fields = ('id', 'title'  ,'startDate' ,'starttime' ,'endtime','description', 'contents','type' , 'place' , 'Opportunity','Contact' )
