@@ -29,3 +29,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewUser
         fields = "__all__"
+  
+        
+class UserImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NewUser
+        fields = ('image' ,)

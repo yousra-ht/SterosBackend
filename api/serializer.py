@@ -1,4 +1,5 @@
 
+from rest_framework.fields import DecimalField
 from Auth.serializer import UserSerializer
 from django.contrib.auth.models import User
 from django.db.models import fields
@@ -59,7 +60,10 @@ class ActionSerializer(serializers.ModelSerializer):
 
 class RetriveActionbbbbSerializer(serializers.ModelSerializer):
     Contact = ContactSerializer(read_only=True,many=True)
+    user =  UserSerializer(read_only=True)
+    Opportunity =OpportunitiesSerializer(read_only=True)
+
 
     class Meta:
         model   = Action
-        fields = ('id', 'title'  ,'startDate' ,'starttime' ,'endtime','description', 'contents','type' , 'place' , 'Opportunity','Contact' )
+        fields = ('id', 'title'  ,'startDate' ,'endDate' ,'status','description', 'contents','type' , 'place' , 'Opportunity','Contact', 'user' )

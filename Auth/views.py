@@ -1,5 +1,7 @@
 
 
+from django.http import response
+from CRMBackend.permissions import AuthorAllStaffAllButEditOrReadOnly
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -7,12 +9,12 @@ from .models import NewUser
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializer import  RegisterSerializer, UserSerializer 
+from .serializer import  RegisterSerializer, UserImageSerializer, UserSerializer 
 
 
 class Register(APIView):
 	
-	permission_classes = [IsAuthenticated]
+	permission_classes = [AuthorAllStaffAllButEditOrReadOnly , IsAuthenticated ]
 
 
 	def post(self, request, format='json'):
@@ -45,7 +47,7 @@ def validate_email(email):
 
 class ListeOfUser(ListCreateAPIView):
 
-	permission_classes = [IsAuthenticated]
+	permission_classes = [IsAuthenticated  ]
 	queryset = NewUser.objects.all()
 	serializer_class = UserSerializer
 	NewUser.objects
@@ -58,3 +60,11 @@ class ListeOfUserWithoutpagination(ListCreateAPIView):
 	serializer_class = UserSerializer
 	pagination_class = None
 	NewUser.objects
+
+class Images(ListCreateAPIView) : 
+		
+    serializer_class =UserImageSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return NewUser.objects.filter(id=self.kwargs.get('pk' , None)) 
+
