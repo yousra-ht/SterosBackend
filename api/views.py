@@ -43,9 +43,14 @@ class ProspectRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Prospect.objects.filter(id=self.kwargs.get('pk' , None)) 
 
+class ContactRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class =serializer.ContactSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return Contact.objects.filter(id=self.kwargs.get('pk' , None)) 
 
 class ContactListe(ListCreateAPIView):
-        queryset = Contact.objects.all()
+        queryset = Contact.objects.filter(delete = False)
         permission_classes = [IsAuthenticated]
         pagination_class = None
         def get_serializer_class(self):
@@ -515,7 +520,7 @@ class ActionListe(ListCreateAPIView):
 
 
 class UserLogged(ListCreateAPIView) : 
-	# permission_classes = [IsAuthenticated]
+	permission_classes = [IsAuthenticated]
         # def get_queryset(self):
         #     queryset = super(UserLocationsListView , self).get_queryset()
         #     queryset = queryset.filter(user=self.request.user)
@@ -523,11 +528,11 @@ class UserLogged(ListCreateAPIView) :
 	def get(self, request, format='json'):
                 if request.method == 'GET':
 	        
-                        if request.user.is_authenticated and request.user.role == 'responsable' :
+                        if request.user.is_authenticated :
                                
                                         return response.JsonResponse ( { 
                                                         'status' : True ,
-                                                        'data' : request.user.id,
+                                                        'data' : [ request.user.email, request.user.nom , request.user.prenom , request.user.role ] ,
                                                         'message' : "worked"
 
                                                 })  

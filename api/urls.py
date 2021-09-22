@@ -36,5 +36,6 @@ urlpatterns = [
     path('ProspectDetaills/<int:pk>', views.ProcpectDetaills.as_view() ),
     path('UpdateProspect/<int:pk>', views.ProspectRetrieveUpdateDestroyAPIView.as_view() ),
     path('ContactDetaills/<int:pk>', views.ContactDetaills.as_view() ),
-    # path('^Opportunity/(?P<username>.+)/$', PurchaseList.as_view()),
+    path('UpdateContact/<int:pk>', views.ContactRetrieveUpdateDestroyAPIView.as_view() ),
+    path('UserLogged',  views.UserLogged.as_view()),
 ]
