@@ -1,9 +1,10 @@
 
 
+from django.contrib.auth.models import User
 from django.http import response
 from CRMBackend.permissions import AuthorAllStaffAllButEditOrReadOnly
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from .models import NewUser
 from rest_framework import status
@@ -14,7 +15,7 @@ from .serializer import  RegisterSerializer, UserImageSerializer, UserSerializer
 
 class Register(APIView):
 	
-	permission_classes = [AuthorAllStaffAllButEditOrReadOnly , IsAuthenticated ]
+	permission_classes = [IsAuthenticated ]
 
 
 	def post(self, request, format='json'):
@@ -27,6 +28,7 @@ class Register(APIView):
 							data['response'] = 'Error'
 							return Response(data,status=status.HTTP_400_BAD_REQUEST)
 					serializer = RegisterSerializer (data=request.data)
+					
 					if serializer.is_valid():
 						user = serializer.save()
 						if user:
@@ -60,6 +62,12 @@ class ListeOfUserWithoutpagination(ListCreateAPIView):
 	serializer_class = UserSerializer
 	pagination_class = None
 	NewUser.objects
+
+class UserRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return NewUser.objects.filter(id=self.kwargs.get('pk' , None)) 
 
 class Images(ListCreateAPIView) : 
 		

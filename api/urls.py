@@ -5,6 +5,7 @@ from django.urls import path
 
 urlpatterns = [
     path('products', views.ProduitListe.as_view() ),
+    path('TypeProduit', views.TypeProduitListe.as_view() ),
     path('prospects', views.ProspectListe.as_view() ),
     path('Contact', views.ContactListe.as_view() ),
     path('Allopportunities/', views.OpportunitiesListe.as_view() ),
@@ -16,6 +17,7 @@ urlpatterns = [
     path('opportunitiesNegociation/', views.OpportunitiesListeNegociation.as_view() ),
     path('opportunitiesGagnee/', views.OpportunitiesListeGagnee.as_view() ),
     path('opportunitiesPerdue/', views.OpportunitiesListePerdue.as_view() ), 
+     path('OpportunitiesListeGagneeNopa/', views.OpportunitiesListeGagneeNopa.as_view() ), 
     path('Updateopportunities/<int:pk>', views.OpportunitiesRetrieveUpdateDestroyAPIView.as_view() ),
     path('UpdateAction/<int:pk>', views.ActionRetrieveUpdateDestroyAPIView.as_view() ),
     path('UpdateProduit/<int:pk>', views.ProduitRetrieveUpdateDestroyAPIView.as_view() ),
@@ -38,4 +40,13 @@ urlpatterns = [
     path('ContactDetaills/<int:pk>', views.ContactDetaills.as_view() ),
     path('UpdateContact/<int:pk>', views.ContactRetrieveUpdateDestroyAPIView.as_view() ),
     path('UserLogged',  views.UserLogged.as_view()),
+    path('villeListe',  views.VilleListe.as_view()),
+    path('paysListe',  views.PaysListe.as_view()),
+    path('competitionListe/<int:pk>',  views.competitionListe.as_view()),
+    path('competitionListeAdd',  views.competitionListeADD.as_view()),
+    path('ContactOfProdpect/<int:pk>', views.ContactofProspect.as_view() ),
+    path('ActionOpportunity/<int:pk>', views.ActionListeOpportunity.as_view() ),
+    path('VilleofPays/<int:pk>', views.VilleListePays.as_view() ),
+    path('Goalsliste/<int:pk>', views.GoalsListe.as_view() ),
+
 ]

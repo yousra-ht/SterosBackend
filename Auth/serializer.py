@@ -8,7 +8,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     class Meta:
         model = NewUser
-        fields = ('email',  'password' , 'password2' , 'nom','prenom' , 'image' , 'role')
+        fields = ('email',  'password' , 'password2' , 'nom','prenom' , 'image' , 'role' , 'phone'  ,'Tel','Fax' ,'Ville' ,'adresse' , 'description', 'birthday' ,'pays' , "Color")
         extra_kwargs = {'password': {'write_only': True}}
     def create(self, validated_data):
 		    password  = validated_data.pop('password', None)
