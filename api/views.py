@@ -9,7 +9,7 @@ from rest_framework import generics
 from rest_framework.fields import FloatField
 from rest_framework.serializers import ModelSerializer
 from rest_framework.views import APIView
-from api.models import Action, Contact, Goals, Opportunities, Pays, Produit, Prospect, TypeProduit, Ville, competition
+from api.models import Action, Contact, Goals, Langues, Opportunities, Pays, Produit, Prospect, TypeProduit, Ville, competition
 from  rest_framework.generics import (GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView)
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from . import serializer
@@ -85,7 +85,7 @@ class OpportunitiesListeWinning(ListCreateAPIView):
         def get_queryset(self):
                 if self.request.user.role == 'responsable':
                   return  Opportunities.objects.all().filter(delete=False, phase='Gagnée'  ).order_by('creationDate')
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                  return  Opportunities.objects.all().filter(delete=False , phase='Gagnée' ).order_by('creationDate')
                 if self.request.user.role == 'commerciale':
                  return  Opportunities.objects.filter(delete=False , phase='Gagnée' ,user_id = self.request.user.id   ).order_by('creationDate')
@@ -119,7 +119,7 @@ class OpportunitiesListeQualification(ListCreateAPIView):
         def get_queryset(self):
                 if self.request.user.role == 'responsable':
                   return  Opportunities.objects.all().filter(delete=False , phase='Qualification'  ).order_by('creationDate')
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                  return  Opportunities.objects.all().filter(delete=False , phase='Qualification' ).order_by('creationDate')
                 if self.request.user.role == 'commerciale':
                  return  Opportunities.objects.filter(delete=False , phase='Qualification' ,user_id = self.request.user.id   ).order_by('creationDate')
@@ -135,7 +135,7 @@ class OpportunitiesListeEtude(ListCreateAPIView):
         def get_queryset(self):
                 if self.request.user.role == 'responsable':
                   return  Opportunities.objects.all().filter(delete=False , phase='Etude de besoins'  ).order_by('creationDate')
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                  return  Opportunities.objects.all().filter(delete=False , phase='Etude de besoins' ).order_by('creationDate')
                 if self.request.user.role == 'commerciale':
                  return  Opportunities.objects.filter(delete=False , phase='Etude de besoins' ,user_id = self.request.user.id   ).order_by('creationDate')
@@ -150,7 +150,7 @@ class OpportunitiesListeProposition(ListCreateAPIView):
         def get_queryset(self):
                 if self.request.user.role == 'responsable':
                   return  Opportunities.objects.all().filter(delete=False , phase='Proposition commerciale'  ).order_by('creationDate')
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                  return  Opportunities.objects.all().filter(delete=False , phase='Proposition commerciale' ).order_by('creationDate')
                 if self.request.user.role == 'commerciale':
                  return  Opportunities.objects.filter(delete=False , phase='Proposition commerciale' ,user_id = self.request.user.id   ).order_by('creationDate')
@@ -167,7 +167,7 @@ class OpportunitiesListeNegociation(ListCreateAPIView):
         def get_queryset(self):
                 if self.request.user.role == 'responsable':
                   return  Opportunities.objects.all().filter(delete=False , phase='Négociation'  ).order_by('creationDate')
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                  return  Opportunities.objects.all().filter(delete=False , phase='Négociation' ).order_by('creationDate')
                 if self.request.user.role == 'commerciale':
                  return  Opportunities.objects.filter(delete=False , phase='Négociation' ,user_id = self.request.user.id   ).order_by('creationDate')
@@ -181,7 +181,7 @@ class OpportunitiesListeGagnee(ListCreateAPIView):
         def get_queryset(self):
                 if self.request.user.role == 'responsable':
                   return  Opportunities.objects.all().filter(delete=False , phase='Gagnée'  ).order_by('creationDate')
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                  return  Opportunities.objects.all().filter(delete=False , phase='Gagnée' ).order_by('creationDate')
                 if self.request.user.role == 'commerciale':
                  return  Opportunities.objects.filter(delete=False , phase='Gagnée' ,user_id = self.request.user.id   ).order_by('creationDate')
@@ -195,7 +195,7 @@ class OpportunitiesListeGagneeNopa(ListCreateAPIView):
         def get_queryset(self):
                 if self.request.user.role == 'responsable':
                   return  Opportunities.objects.all().filter(delete=False , phase='Gagnée'  ).order_by('creationDate')
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                  return  Opportunities.objects.all().filter(delete=False , phase='Gagnée' ).order_by('creationDate')
                 if self.request.user.role == 'commerciale':
                  return  Opportunities.objects.filter(delete=False , phase='Gagnée' ,user_id = self.request.user.id   ).order_by('creationDate')
@@ -210,7 +210,7 @@ class OpportunitiesListePerdue(ListCreateAPIView):
         def get_queryset(self):
                 if self.request.user.role == 'responsable':
                   return  Opportunities.objects.all().filter(delete=False , phase='Perdue'  ).order_by('creationDate')
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                  return  Opportunities.objects.all().filter(delete=False , phase='Perdue' ).order_by('creationDate')
                 if self.request.user.role == 'commerciale':
                  return  Opportunities.objects.filter(delete=False , phase='Perdue' ,user_id = self.request.user.id   ).order_by('creationDate')
@@ -253,7 +253,7 @@ class SumQualification1 (APIView) :
                                 'message' : "worked"
 
                         })
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                   suma =  Opportunities.objects.filter(delete=False , phase='Qualification' ).aggregate(Sum('estimatePrice'))
                   return response.JsonResponse ( { 
                                 'status' : True ,
@@ -284,7 +284,7 @@ class SumEtude(APIView) :
                                 'message' : "worked"
 
                         })
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                   suma =  Opportunities.objects.filter(delete=False , phase='Etude de besoins' ).aggregate(Sum('estimatePrice'))
                   return response.JsonResponse ( { 
                                 'status' : True ,
@@ -315,7 +315,7 @@ class Sumproposition(APIView) :
                                 'message' : "worked"
 
                         })
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                   suma =  Opportunities.objects.filter(delete=False , phase='Proposition commerciale' ).aggregate(Sum('estimatePrice'))
                   return response.JsonResponse ( { 
                                 'status' : True ,
@@ -346,7 +346,7 @@ class SumNegociation(APIView) :
                                 'message' : "worked"
 
                         })
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                   suma =  Opportunities.objects.filter(delete=False, phase='Négociation' ).aggregate(Sum('estimatePrice'))
                   return response.JsonResponse ( { 
                                 'status' : True ,
@@ -378,7 +378,7 @@ class SumGagnee(APIView) :
                                 'message' : "worked"
 
                         })
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                   suma =  Opportunities.objects.filter(delete=False, phase='Gagnée' ).aggregate(Sum('estimatePrice'))
                   return response.JsonResponse ( { 
                                 'status' : True ,
@@ -408,7 +408,7 @@ class SumPerdu(APIView) :
                                 'message' : "worked"
 
                         })
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                   suma =  Opportunities.objects.filter(delete=False , phase='Perdue' ).aggregate(Sum('estimatePrice'))
                   return response.JsonResponse ( { 
                                 'status' : True ,
@@ -547,7 +547,7 @@ class ActionListe(ListCreateAPIView):
         def get_queryset(self):
                 if self.request.user.role == 'responsable':
                   return   Action.objects  .all()
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                  return  Action.objects.all()
                 if self.request.user.role == 'commerciale':
                  return Action.objects.filter(user_id = self.request.user.id   )
@@ -562,7 +562,7 @@ class ActionListeOpportunity(ListCreateAPIView):
         def get_queryset(self):
                 if self.request.user.role == 'responsable':
                   return   Action.objects  .filter(Opportunity_id =self.kwargs.get('pk' , None) )
-                if self.request.user.role == 'manager':
+                if self.request.user.role == 'administrator':
                  return  Action.objects.filter(Opportunity_id =self.kwargs.get('pk' , None) )
                 if self.request.user.role == 'commerciale':
                  return Action.objects.filter(user_id = self.request.user.id  , Opportunity_id =self.kwargs.get('pk' , None)  )
@@ -580,7 +580,7 @@ class UserLogged(ListCreateAPIView) :
                                
                                         return response.JsonResponse ( { 
                                                         'status' : True ,
-                                                        'data' : [ request.user.email, request.user.nom , request.user.prenom , request.user.role ] ,
+                                                        'data' : [ request.user.email, request.user.nom , request.user.prenom , request.user.role , request.user.id ] ,
                                                         'message' : "worked"
 
                                                 })  
@@ -595,6 +595,23 @@ class VilleListe(ListCreateAPIView):
                 if self.request.method == 'POST':
                         return serializer.VilleSerializer
                 return serializer.RetriveVilleSerializer
+class VilletRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class =serializer.VilleSerializer
+    def get_queryset(self):
+        return Ville.objects.filter(id=self.kwargs.get('pk' , None)) 
+
+
+class VilleDetaills(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+    
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+                        return serializer.VilleSerializer
+        return serializer.RetriveVilleSerializer
+    def get_queryset(self): 
+        return Ville.objects.filter(id=self.kwargs.get('pk' , None))    
 
 class VilleListePays(ListCreateAPIView):
     permission_classes = [IsAuthenticated]
@@ -613,7 +630,22 @@ class PaysListe (ListCreateAPIView):
         serializer_class =serializer.PaysSerializer 
         pagination_class = None
         Pays.objects
-          
+
+class PaystRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class =serializer.PaysSerializer 
+    def get_queryset(self):
+        return Pays.objects.filter(id=self.kwargs.get('pk' , None)) 
+class PaysDetaills(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+    
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+                        return serializer.PaysSerializer 
+        return serializer.PaysSerializer 
+    def get_queryset(self): 
+        return Pays.objects.filter(id=self.kwargs.get('pk' , None))           
 class competitionListe(ListCreateAPIView):
 
         permission_classes = [IsAuthenticated]
@@ -638,12 +670,46 @@ class competitionListeADD(ListCreateAPIView):
                 return serializer.RetrivecompetitionSerializer
 
 
+class competitiontRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class =serializer.competitionSerializer
+    def get_queryset(self):
+        return competition.objects.filter(id=self.kwargs.get('pk' , None)) 
+
+class competitionDetaills(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+    
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+                        return serializer.competitionSerializer
+        return serializer.competitionSerializer
+    def get_queryset(self): 
+        return  competition.objects.filter(id=self.kwargs.get('pk' , None))  
+
 class TypeProduitListe(ListCreateAPIView):
         permission_classes = [IsAuthenticated]
         queryset = TypeProduit.objects.filter(delete = False )
         serializer_class =serializer.TypeProduitSerializer
         pagination_class = None
         TypeProduit.objects
+
+class TypeProduitDetaills(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+    
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+                        return serializer.TypeProduitSerializer
+        return serializer.TypeProduitSerializer
+    def get_queryset(self): 
+        return TypeProduit.objects.filter(id=self.kwargs.get('pk' , None))      
+
+class TypeProduitRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class =serializer.TypeProduitSerializer
+    def get_queryset(self):
+        return  TypeProduit.objects.filter(id=self.kwargs.get('pk' , None)) 
 
 class GoalsListe(ListCreateAPIView):
        
@@ -655,3 +721,30 @@ class GoalsListe(ListCreateAPIView):
                 return serializer.GoalsSerializer
         def get_queryset(self): 
          return Goals.objects.filter(user_id = self.kwargs.get('pk' , None))
+
+
+
+
+class LangueListe(ListCreateAPIView):
+        permission_classes = [IsAuthenticated]
+        queryset = Langues.objects.filter(delete = False )
+        serializer_class =serializer.LangueSerializer
+        pagination_class = None
+        Langues.objects
+
+class LangueDetaills(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+    
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+                        return serializer.LangueSerializer
+        return serializer.LangueSerializer
+    def get_queryset(self): 
+        return Langues.objects.filter(id=self.kwargs.get('pk' , None))    
+
+class LanguetRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class =serializer.LangueSerializer
+    def get_queryset(self):
+        return Langues.objects.filter(id=self.kwargs.get('pk' , None)) 

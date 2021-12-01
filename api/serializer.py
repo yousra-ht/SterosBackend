@@ -8,6 +8,14 @@ from django.db.models.base import Model
 from rest_framework import serializers 
 from api.models import *
 
+
+class LangueSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model =  Langues
+        fields = "__all__" 
+
+
 class ProduitSerializer(serializers.ModelSerializer):
     code = serializers.CharField(validators=[ UniqueValidator( queryset= Produit.objects.all(),lookup='iexact')])
     class Meta:
@@ -60,7 +68,7 @@ class ActionSerializer(serializers.ModelSerializer):
 class RetriveActionbbbbSerializer(serializers.ModelSerializer):
     Contact = ContactSerializer(read_only=True,many=True)
     user =  UserSerializer(read_only=True)
-    Opportunity =OpportunitiesSerializer(read_only=True)
+    Opportunity =RetriveOpportunitiesSerializer(read_only=True)
 
 
     class Meta:
@@ -82,9 +90,10 @@ class VilleSerializer(serializers.ModelSerializer):
 class RetriveProspecterializer(serializers.ModelSerializer):
     pays = PaysSerializer(read_only=True)
     Ville = VilleSerializer(read_only =True)
+    langue = LangueSerializer(read_only =True)
     class Meta:
         model = Prospect 
-        fields = ('id',   'name' ,'adress' ,'phone', 'email','fax' , 'size', 'delete' ,'Ville',  'pays', 'type' ,'codePostal' , 'banque', 'Rib' , 'activity', 'langue', 'description' ) 
+        fields = ('id',   'name' ,'adress' ,'phone', 'email','fax' , 'size', 'delete' ,'Ville',  'pays', 'type' ,'codePostal' , 'banque', 'Rib' , 'activity', 'langue', 'description' , 'Tel' ) 
 
 
 class RetriveVilleSerializer(serializers.ModelSerializer):
@@ -135,3 +144,5 @@ class GoalsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Goals
         fields = "__all__"
+
+
