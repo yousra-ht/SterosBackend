@@ -1,7 +1,11 @@
-from CRMBackend.settings import STATIC_URL
+from django.conf import settings
+from django.conf.urls.static import static
+
+
+
 from Auth.views import Images, ListeOfUser, ListeOfUserWithoutpagination  , UserRetrieveUpdateDestroyAPIView
 from Auth.views import Register
-from django.conf import urls
+
 from django.urls import path
 from rest_framework_simplejwt.views  import (
      TokenObtainPairView,
@@ -22,4 +26,4 @@ urlpatterns = [
     path('UsersNOpag/', ListeOfUserWithoutpagination.as_view(), name='register'),
     path('image/<int:pk>', Images.as_view() ),
  
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

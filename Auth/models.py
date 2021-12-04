@@ -42,7 +42,7 @@ class AccountManager(BaseUserManager):
 
 class NewUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
-    image =  models.ImageField(upload_to='images' , blank = True )
+    image =  models.ImageField(upload_to='images' )
     role =  models.CharField(max_length=150, blank=True)
     nom = models.CharField(max_length=150, blank=True)
     prenom= models.CharField(max_length=150, blank=True)

@@ -137,7 +137,7 @@ class RetriveContactSerializer(serializers.ModelSerializer):
 
     class Meta:
         model   = Contact
-        fields = ('id',   'name' ,'phone' ,'email', 'function','prospect' , 'user' , 'birthday' ,'lastname' ,'description' , 'adresse' ,'pays','Ville' )
+        fields = ('id',   'name' ,'phone' ,'email', 'function','prospect' , 'user' , 'birthday' ,'lastname' ,'description' , 'adresse' ,'pays','Ville' , 'Tel' )
 
 class GoalsSerializer(serializers.ModelSerializer):
 

@@ -82,7 +82,7 @@ AUTH_USER_MODEL = "Auth.NewUser"
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=3),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -211,3 +211,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_EXPIRE_SECONDS = 3600
 AUTO_LOGOUT_DELAY = 3600
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+MEDIA_ROOT = os.path.join(BASE_DIR  )
+
+MEDIA_URL = '/images/'

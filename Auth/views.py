@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializer import  RegisterSerializer, UserImageSerializer, UserSerializer 
 
+import base64 , os
 
 class Register(APIView):
 	
@@ -49,9 +50,20 @@ def validate_email(email):
 
 class ListeOfUser(ListCreateAPIView):
 
-	permission_classes = [IsAuthenticated  ]
+	permission_classes = [IsAuthenticated]
 	queryset = NewUser.objects.all()
 	serializer_class = UserSerializer
+
+	# def get_queryset(self):
+	# 	queryset = NewUser.objects.all()
+	# 	for user in queryset :
+	# 		    if  user.email: 
+	# 							return user.email
+				# image_format = os.path.splitext(user.image)[-1].replace('.', '').lower()
+				# encoded_string = base64.b64encode(image_data).decode('utf-8')
+
+				# if image_format in ['jpg', 'jpeg', 'png', 'gif']:
+				# 	image =  'data:image/%s;base64,%s' % (image_format, encoded_string)
 	NewUser.objects
 
 
