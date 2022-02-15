@@ -65,4 +65,9 @@ urlpatterns = [
     path('VilleofPays/<int:pk>', views.VilleListePays.as_view() ),
     path('Goalsliste/<int:pk>', views.GoalsListe.as_view() ),
 
+
+    path('adresseListe',  views.AdresseListe.as_view()),
+    # path('AdresseDetaills/<int:pk>', views.VilleDetaills.as_view() ),
+    path('UpdateAdresse/<int:pk>',  views.AdresseRetrieveUpdateDestroyAPIView.as_view()),
+
 ]

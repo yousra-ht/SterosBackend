@@ -9,7 +9,7 @@ from rest_framework import generics
 from rest_framework.fields import FloatField
 from rest_framework.serializers import ModelSerializer
 from rest_framework.views import APIView
-from api.models import Action, Contact, Goals, Langues, Opportunities, Pays, Produit, Prospect, TypeProduit, Ville, competition
+from api.models import Action, Adresses, Contact, Goals, Langues, Opportunities, Pays, Produit, Prospect, TypeProduit, Ville, competition
 from  rest_framework.generics import (GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView)
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from . import serializer
@@ -489,7 +489,7 @@ class ProduitDetaills(ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
                         return serializer.ProduitSerializer
-        return serializer.ProduitSerializer
+        return serializer.RetriveProduitSerializer
     def get_queryset(self): 
         return Produit.objects.filter(id=self.kwargs.get('pk' , None))  
 
@@ -748,3 +748,19 @@ class LanguetRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class =serializer.LangueSerializer
     def get_queryset(self):
         return Langues.objects.filter(id=self.kwargs.get('pk' , None)) 
+
+
+class AdresseListe (ListCreateAPIView):
+        permission_classes = [IsAuthenticated]
+        queryset = Adresses.objects.filter(delete = False )
+        pagination_class = None
+        def get_serializer_class(self):
+                if self.request.method == 'POST':
+                        return serializer.AdresseSerializer
+                return serializer.RetriveAdresseSerializer
+
+class AdresseRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class =serializer.AdresseSerializer
+    def get_queryset(self):
+        return Adresses.objects.filter(id=self.kwargs.get('pk' , None)) 

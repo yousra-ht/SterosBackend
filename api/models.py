@@ -4,7 +4,7 @@ from django.db import models
 from Auth.models import NewUser
 
 class TypeProduit(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150 , unique=True )
     delete = models.BooleanField()
     description = models.TextField(null=True , blank=True)
 
@@ -19,6 +19,7 @@ class Produit(models.Model) :
     delete = models.BooleanField()
     code = models.CharField(max_length=100, unique=True )
     type = models.ForeignKey(TypeProduit ,  on_delete=models.CASCADE )
+    user = models.ForeignKey(NewUser,  null=True ,on_delete= models.SET_NULL ) 
   
 
 
@@ -33,25 +34,30 @@ class Produit(models.Model) :
 
 
 class Pays (models.Model)  :
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100 , unique=True )
     description = models.TextField(null=True, blank=True )
     delete = models.BooleanField()
     # Ville  = models.ManyToManyField(Ville ,  blank=True  )
 
 class Langues (models.Model)  :
-    langue = models.CharField(max_length=100)
+    langue = models.CharField(max_length=100 , unique=True)
     description = models.TextField(null=True, blank=True )
     delete = models.BooleanField()
     # Ville  = models.ManyToManyField(Ville ,  blank=True  )
-    
+
+
+
 class Ville (models.Model)  :
-    ville = models.CharField(max_length=100 ,  null=True, blank=True)
-    adresse = models.CharField(max_length=150)
+    ville = models.CharField(max_length=100 ,   unique=True)
     Pays = models.ForeignKey(Pays , on_delete=models.CASCADE  ) 
     description = models.TextField(null=True, blank=True )
     delete = models.BooleanField()
 
-
+class Adresses (models.Model)  :
+    adresse = models.CharField(max_length=100 ,   unique=True)
+    ville = models.ForeignKey( Ville , on_delete=models.CASCADE  ) 
+    description = models.TextField(null=True, blank=True )
+    delete = models.BooleanField()    
 
 class competition(models.Model) :
     

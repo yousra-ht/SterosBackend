@@ -10,7 +10,7 @@ from api.models import *
 
 
 class LangueSerializer(serializers.ModelSerializer):
-
+    langue = serializers.CharField(validators=[ UniqueValidator( queryset= Langues.objects.all(),lookup='iexact')])
     class Meta:
         model =  Langues
         fields = "__all__" 
@@ -76,13 +76,13 @@ class RetriveActionbbbbSerializer(serializers.ModelSerializer):
         fields = ('id', 'title'  ,'startDate' ,'endDate' ,'status','description', 'contents','type' , 'place' , 'Opportunity','Contact', 'user' )
 
 class PaysSerializer(serializers.ModelSerializer):
-
+    name = models.CharField(validators=[ UniqueValidator( queryset= Pays.objects.all(),lookup='iexact')])
     class Meta:
         model =  Pays
         fields = "__all__"
 
 class VilleSerializer(serializers.ModelSerializer):
-
+    ville = models.CharField(validators=[ UniqueValidator( queryset= Ville.objects.all(),lookup='iexact')])
     class Meta:
         model = Ville
         fields = "__all__"
@@ -98,9 +98,24 @@ class RetriveProspecterializer(serializers.ModelSerializer):
 
 class RetriveVilleSerializer(serializers.ModelSerializer):
     Pays = PaysSerializer(read_only=True)
+    ville = models.CharField(validators=[ UniqueValidator( queryset= Ville.objects.all(),lookup='iexact')])
     class Meta:
         model =  Ville
-        fields =('id','Pays' , 'ville' ,'delete'  ,'adresse' ,'description')
+        fields =('id','Pays' , 'ville' ,'delete'   ,'description')
+
+class AdresseSerializer(serializers.ModelSerializer):
+    adresse = models.CharField(validators=[ UniqueValidator( queryset=  Adresses .objects.all(),lookup='iexact')])
+    class Meta:
+        model =  Adresses 
+        fields = "__all__"
+
+class RetriveAdresseSerializer(serializers.ModelSerializer):
+    ville = VilleSerializer(read_only=True)
+    adresse = models.CharField(validators=[ UniqueValidator( queryset=  Adresses .objects.all(),lookup='iexact')])
+    class Meta:
+        model =  Adresses
+        fields =('id','adresse' , 'ville' ,'delete'   ,'description')
+
 
 class competitionSerializer(serializers.ModelSerializer):
     # code = serializers.CharField(validators=[ UniqueValidator( queryset= Produit.objects.all(),lookup='iexact')])
@@ -117,6 +132,7 @@ class RetrivecompetitionSerializer(serializers.ModelSerializer):
 
 
 class TypeProduitSerializer(serializers.ModelSerializer):
+     name = serializers.CharField(validators=[ UniqueValidator( queryset= TypeProduit.objects.all(),lookup='iexact')])
      class Meta:
         model = TypeProduit
         fields = "__all__"
@@ -125,9 +141,10 @@ class TypeProduitSerializer(serializers.ModelSerializer):
 class RetriveProduitSerializer(serializers.ModelSerializer):
     code = serializers.CharField(validators=[ UniqueValidator( queryset= Produit.objects.all(),lookup='iexact')])
     type =TypeProduitSerializer(read_only=True)
+    user =  UserSerializer(read_only=True)
     class Meta:
         model = Produit
-        fields =('id' , 'designation' ,'delete'  ,'description' ,'prix','pointFaible' , 'pointFort' ,'image'  ,'type' , 'code')
+        fields =('id' , 'designation' ,'delete'  ,'description' ,'prix','pointFaible' , 'pointFort' ,'image'  ,'type' , 'code', 'user')
 
 class RetriveContactSerializer(serializers.ModelSerializer):
     prospect = Prospecterializer(read_only=True)

@@ -1,3 +1,5 @@
+from email.mime import image
+from os import path
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -5,7 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 
 
 class AccountManager(BaseUserManager):
-    def create_superuser(self, email,  nom , prenom,password, image , role , phone ,Tel,Fax ,Ville ,adresse , description, birthday ,pays ,Color , **other_fields):
+    def create_superuser(self, email,  nom , prenom,password, image , role , phone ,Tel,Fax ,Ville ,adresse , description, birthday ,pays ,Color , delete ,**other_fields):
         other_fields.setdefault('is_staff', True)
         other_fields.setdefault('is_superuser', True)
         other_fields.setdefault('is_active', True)
@@ -15,8 +17,8 @@ class AccountManager(BaseUserManager):
         if other_fields.get('is_superuser') is not True:
             raise ValueError(
                 'Superuser must be assigned to is_superuser=True.')
-        return self.create_user(email, nom , prenom, image , password,phone ,  role ,Tel,Fax ,Ville ,adresse , description, birthday ,pays ,Color , **other_fields)
-    def create_user(self, email,  nom , prenom, image , role , phone ,Tel,Fax ,Ville ,adresse , description, birthday ,pays , password,Color , **other_fields):
+        return self.create_user(email, nom , prenom, image , password,phone ,  role ,Tel,Fax ,Ville ,adresse , description, birthday ,pays ,Color , delete  ,**other_fields)
+    def create_user(self, email,  nom , prenom, image , role , phone ,Tel,Fax ,Ville ,adresse , description, birthday ,pays , password,Color ,delete  , **other_fields):
         if not email:
             raise ValueError(_('You must provide an email address'))
         
@@ -33,11 +35,13 @@ class AccountManager(BaseUserManager):
                           description =description ,
                           birthday =birthday ,
                           pays = pays,
-                          Color =Color 
+                          Color =Color ,
+                          delete = delete 
                           ,**other_fields)
         user.set_password(password)
         user.save()
         return user
+    
 
 
 class NewUser(AbstractBaseUser, PermissionsMixin):
@@ -48,20 +52,24 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     prenom= models.CharField(max_length=150, blank=True)
     Tel= models.CharField(max_length=150, blank=True)
     Fax =  models.CharField(max_length=150, blank=True)
-    Ville = models.CharField(blank=True, max_length=150)
+    Ville = models.CharField(max_length=150)
     adresse= models.CharField(blank=True, max_length=150)
     description =models.TextField(blank=True, null=True)
-    pays =models.CharField(blank=True, max_length=150)
+    pays =models.CharField( max_length=150)
     phone = models.CharField(blank=True, max_length=150)
     birthday =models.CharField(blank=True, max_length=150)
     start_date = models.DateTimeField(default=timezone.now)
-    Color = models.CharField(blank=True, max_length=150)
+    Color = models.CharField(max_length=150)
     about = models.TextField(_(
         'about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    delete = models.BooleanField()
    
     objects = AccountManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nom' , 'prenom' , 'role']
-  
+    
+    # def __str__(self):
+    #      self.image = self.image.url
+    #      return self.image 

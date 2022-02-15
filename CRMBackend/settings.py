@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 from .permissions import AuthorAllStaffAllButEditOrReadOnly
+from django.core.management.utils import get_random_secret_key  
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,15 +23,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-e5jy!j$jwtu5q#s(uw%1h7e(ehhfm3_0y8b7*)xwnml_m05zne'
+SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
-# Application definition
+DEBUG = False
+SECURE_HSTS_SECONDS = 31536000
+SESSION_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True 
+SECURE_HSTS_PRELOAD = True
 
 INSTALLED_APPS = [
     'rest_framework' ,
@@ -42,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Auth',
     'api',
-    'corsheaders'
+    'corsheaders',
    
     
 ]
@@ -82,7 +85,7 @@ AUTH_USER_MODEL = "Auth.NewUser"
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=3),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=4),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -111,6 +114,8 @@ SIMPLE_JWT = {
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
@@ -119,13 +124,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'CRMBackend.middleware.open_access_middleware'
 ]
 
 ROOT_URLCONF = 'CRMBackend.urls'
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+ALLOWED_HOSTS = ['*']
 
 TEMPLATES = [
     {
@@ -207,11 +213,45 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_EXPIRE_SECONDS = 3600
-AUTO_LOGOUT_DELAY = 3600
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_EXPIRE_SECONDS = 4 * 3600
+AUTO_LOGOUT_DELAY = 4 * 3600
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 MEDIA_ROOT = os.path.join(BASE_DIR  )
 
 MEDIA_URL = '/images/'
+
+
+LOGGING = {
+    'version': 1,
+    'loggers' : {
+        'django' : {
+            'handlers' : ['file'],
+            'level' : 'DEBUG'
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file' : {
+            'level' : 'DEBUG',
+            'class' : 'logging.FileHandler',
+            'filename':'./logs/debug.log'
+        }
+    },
+   
+}
+# CORS_ALLOW_ALL_ORIGINS: True
+# Application definition
+# CORS_ALLOW_METHODS = [
+#     "DELETE",
+#     "GET",
+#     "OPTIONS",
+#     "PATCH",
+#     "POST",
+#     "PUT",
+# ]
+
+
